@@ -17,13 +17,11 @@ public class Board {
     final int BORDERS_PADDING = 10;
 	private DrawableRectangle borders;
 	private Field[][] fields;
-	private Texture field_img;
 	private Texture[] fields_img;
 	
 	public Board(){
 		borders = new DrawableRectangle(BORDERS_MARGIN, BORDERS_MARGIN, 320, 320,Color.LIGHT_GRAY);
 		fields = new Field[FIELDS_X_Y][FIELDS_X_Y];
-		field_img = new Texture("bomb_0.png");
 		
 
 		for(int i = 0;i<fields.length;i++){
@@ -178,7 +176,9 @@ public class Board {
     }
         
 	public void dispose(){
-		field_img.dispose();
+        for(int i = 0;i<fields_img.length;i++){
+			fields_img[i].dispose();
+		}
 	}
 	/*
 	 * Setters and getters
