@@ -1,7 +1,6 @@
 package com.mygdx.game;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class DrawableRectangle extends Actor {
 	private Texture texture;
