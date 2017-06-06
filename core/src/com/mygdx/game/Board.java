@@ -110,6 +110,10 @@ public class Board {
         if(p_left_button == true){
             if(fields[m_index_x][m_index_y].isMarked() == false){
                 fields[m_index_x][m_index_y].setClicked();
+                if(fields[m_index_x][m_index_y].getBombsInNeighborhood()==0 ||
+                   fields[m_index_x][m_index_y].isContainingBomb() == false){
+                    revealEmptyNeighbors(m_index_x,m_index_y);
+                }
                 updateFieldImg(m_index_x,m_index_y);
             }
         }
@@ -160,6 +164,29 @@ public class Board {
         if(DEBUG_MODE == true){
             fields[p_x][p_y].setImgIndex(m_bombs_in_neighborhood);
         }
+    };
+    
+    public void revealEmptyNeighbors(int p_x, int p_y){
+		for(int i = p_x-1;i<p_x+2;i++){
+			for(int j = p_y-1;j<p_y+2;j++){
+                if(i < 0 || i >= FIELDS_X_Y || j < 0 || j >= FIELDS_X_Y){
+                    continue;
+                }
+                else if(DEBUG_MODE == true){
+                    System.out.println("SPRAWDZAM [" + i + "," + j + "]");
+                }
+                
+                if(fields[i][j].isContainingBomb() == false){
+                    fields[i][j].setClicked();
+                    
+                    updateFieldImg(i,j);
+                    if(fields[i][j].getBombsInNeighborhood() == 0){
+                        revealEmptyNeighbors(i,j);
+                    }
+                }
+			}
+		}
+    
     };
     
     public void updateFieldsImg(){
