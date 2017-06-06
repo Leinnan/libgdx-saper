@@ -15,6 +15,7 @@ public class Game extends ApplicationAdapter {
 	public void create () {
 		batch = new SpriteBatch();
 		img = new Texture("badlogic.jpg");
+		board = new Board();
 	}
 
 	@Override
@@ -24,7 +25,7 @@ public class Game extends ApplicationAdapter {
 		batch.begin();
 		batch.draw(img, 0, 0);
 		// nie dział
-		board.draw(batch);
+		batch.draw(board.getBordersTexture(),0,0);
 		batch.end();
 	}
 	

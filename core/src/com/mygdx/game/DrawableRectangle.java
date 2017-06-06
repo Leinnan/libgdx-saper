@@ -9,14 +9,6 @@ public class DrawableRectangle extends Actor {
 	private Texture texture;
 	private Sprite sprite;
 	
-	public Texture getTexture() {
-		return texture;
-	}
-
-	public void setTexture(Texture texture) {
-		this.texture = texture;
-	}
-
 	public DrawableRectangle(float p_x,float p_y,float p_width,float p_height, Color p_color){
 		this.generateSolidTexture((int)p_width,(int)p_height,p_color);
 		setX(p_x);
@@ -38,4 +30,25 @@ public class DrawableRectangle extends Actor {
     public void draw(SpriteBatch p_batch, float p_parent_alpha) {
         sprite.draw(p_batch,p_parent_alpha);
     }
+    
+    /*
+     * Setters and getters
+     */
+
+	public Texture getTexture() {
+		return texture;
+	}
+
+	public void setTexture(Texture texture) {
+		this.texture = texture;
+	}
+
+	public Sprite getSprite() {
+		return sprite;
+	}
+
+	public void setSprite(Sprite sprite) {
+		this.sprite = sprite;
+	}
+
 }
