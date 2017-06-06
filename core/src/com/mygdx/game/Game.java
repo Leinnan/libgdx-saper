@@ -17,6 +17,7 @@ public class Game extends ApplicationAdapter {
     private int win_w;
     final private float TIME_BETWEEN_CLICKS = 0.2f;
     private float time_since_last_click = 0.0f;
+    private boolean is_game_lost = false;
     
 	@Override
 	public void create () {
@@ -34,10 +35,12 @@ public class Game extends ApplicationAdapter {
         int m_mouse_x = Gdx.input.getX();
         int m_mouse_y = win_h - Gdx.input.getY();
         
-        text = "Mouse pos: ";
-        text += m_mouse_x;
-        text += ",";
-        text += m_mouse_y;
+        if(is_game_lost == false){
+            text = "Mouse pos: ";
+            text += m_mouse_x;
+            text += ",";
+            text += m_mouse_y;
+        }   
         time_since_last_click += p_delta;
         
         if(Gdx.input.isButtonPressed(Buttons.LEFT) == true){
@@ -45,6 +48,10 @@ public class Game extends ApplicationAdapter {
                 font.setColor(Color.GREEN);
                 board.handleInput(m_mouse_x,m_mouse_y,true);
                 time_since_last_click = 0.f;
+                if(board.isAnyBombExposed() == true){
+                    text = "GAME LOST!";
+                    is_game_lost = true;
+                }
             }
         }
         else{

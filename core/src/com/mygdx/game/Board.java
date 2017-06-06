@@ -174,6 +174,18 @@ public class Board {
             fields[p_x][p_y].setImgIndex(fields[p_x][p_y].getBombsInNeighborhood());
         }
     }
+    
+    public boolean isAnyBombExposed(){
+		for(int i = 0;i<fields.length;i++){
+			for(int j = 0;j<fields[i].length;j++){
+                if(fields[i][j].isContainingBomb() == true)
+                    if(fields[i][j].isClicked() == true)
+                        return true;
+			}
+		}
+        return false;
+        
+    }
         
 	public void dispose(){
         for(int i = 0;i<fields_img.length;i++){
