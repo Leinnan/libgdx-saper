@@ -61,11 +61,11 @@ public class Board {
 		for(int i = 0;i<fields.length;i++){
 			for(int j = 0;j<fields[i].length;j++){
 				p_batch.draw(fields_img[fields[i][j].getImgIndex()],m_x_pos,m_y_pos);
-				m_x_pos +=FIELD_LENGTH;
+				m_y_pos +=FIELD_LENGTH;
 			}
 			
-			m_y_pos += FIELD_LENGTH;
-			m_x_pos = (int)borders.getX()+BORDERS_PADDING;
+			m_x_pos += FIELD_LENGTH;
+			m_y_pos = (int)borders.getX()+BORDERS_PADDING;
 		}
 		
 	}
@@ -95,11 +95,13 @@ public class Board {
         int m_index_y = p_mouse_y - BORDERS_PADDING - BORDERS_MARGIN;
         m_index_x /= 30;
         m_index_y /= 30;
-        System.out.println(m_index_x + "," + m_index_y);
-        
         // if number is out of range prevent crash
-        if(m_index_x < FIELDS_X_Y && m_index_y < FIELDS_X_Y){
+        if(m_index_x >= FIELDS_X_Y || m_index_y >= FIELDS_X_Y ||
+           m_index_x < 0 || m_index_y < 0 ){
             return;
+        }
+        if(DEBUG_MODE == true){
+            System.out.println(m_index_x + "," + m_index_y);
         }
         
         if(p_is_clicked == true){
