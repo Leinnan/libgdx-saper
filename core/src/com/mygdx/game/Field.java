@@ -2,12 +2,15 @@ package com.mygdx.game;
 
 public class Field {
 	private boolean clicked;
-	private boolean contain_bomb = false;
+	private boolean contain_bomb;
 	private int bombs_in_neighborhood;
 	private int img_index;
 	
 	public Field(){
 		bombs_in_neighborhood = 0;
+		img_index = 9;
+		clicked = false;
+		contain_bomb = false;
 	}
 	/*
 	 * Setters and getters
@@ -35,12 +38,20 @@ public class Field {
 		this.contain_bomb = contain_bomb;
 	}
 
-	public int getBombInNeighborhood() {
+	public int getBombsInNeighborhood() {
 		return bombs_in_neighborhood;
 	}
 
 	public void setBombInNeighborhood(int bomb_in_neighborhood) {
 		this.bombs_in_neighborhood = bomb_in_neighborhood;
+	}
+
+	public int getImgIndex() {
+		return img_index;
+	}
+
+	public void setImgIndex(int p_img_index) {
+		this.img_index = p_img_index;
 	}
 
 	
