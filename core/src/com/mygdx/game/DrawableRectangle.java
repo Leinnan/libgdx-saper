@@ -2,8 +2,6 @@ package com.mygdx.game;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.Batch;
 
 public class DrawableRectangle extends Actor {
 	private Texture texture;
@@ -26,10 +24,6 @@ public class DrawableRectangle extends Actor {
 		m_pixmap.dispose();
 	}
 
-    
-    public void draw(SpriteBatch p_batch, float p_parent_alpha) {
-        sprite.draw(p_batch,p_parent_alpha);
-    }
     
     /*
      * Setters and getters

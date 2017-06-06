@@ -5,21 +5,25 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class Board {
-	private Color borders_color;
 	private DrawableRectangle borders;
+	
 	public Board(){
-		borders_color = new Color(Color.LIGHT_GRAY);
-		borders = new DrawableRectangle(0, 0, 500, 300,borders_color);
+		borders = new DrawableRectangle(10, 10, 380, 380,Color.LIGHT_GRAY);
 		
 	}
-	// nie działa
-	public void draw(SpriteBatch p_batch){
-		borders.draw(p_batch, 1);
-	}
+	/*
+	 * Setters and getters
+	 */
 	public Texture getBordersTexture(){
 		return borders.getTexture();
 	}
 	public Sprite getBordersSprite() {
 		return borders.getSprite();
+	}
+	public float getBordersX(){
+		return borders.getX();
+	}
+	public float getBordersY(){
+		return borders.getY();
 	}
 }

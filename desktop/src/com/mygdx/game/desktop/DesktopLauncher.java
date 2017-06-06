@@ -7,6 +7,9 @@ import com.mygdx.game.Game;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+		config.title = "Game- Saper jak marzenie!";
+		config.height = 600;
+		config.width = 400;
 		new LwjglApplication(new Game(), config);
 	}
 }

@@ -10,6 +10,7 @@ public class Game extends ApplicationAdapter {
 	SpriteBatch batch;
 	Board board;
 	
+	
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
@@ -21,13 +22,13 @@ public class Game extends ApplicationAdapter {
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
-		batch.draw(board.getBordersTexture(),0,0);
+		batch.draw(board.getBordersTexture(),board.getBordersX(),board.getBordersY());
 		batch.end();
 	}
 	
 	@Override
 	public void dispose () {
 		batch.dispose();
-		img.dispose();
+		
 	}
 }
