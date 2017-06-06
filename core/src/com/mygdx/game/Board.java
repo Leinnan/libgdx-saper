@@ -6,19 +6,22 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 
 public class Board {
 	final int FIELDS_X_Y = 10;
+    final int FIELD_LENGTH = 30;
 	final int BOMBS_AMOUNT = 10;
     final int BOMB_IMG = 10;
     final int HIDE_IMG = 0;
     final int NONE_IMG = 9;
     final int HOVER_IMG = 11;
-    final boolean DEBUG_MODE = true;
+    final boolean DEBUG_MODE = false;
+    final int BORDERS_MARGIN = 30;
+    final int BORDERS_PADDING = 10;
 	private DrawableRectangle borders;
 	private Field[][] fields;
 	private Texture field_img;
 	private Texture[] fields_img;
 	
 	public Board(){
-		borders = new DrawableRectangle(30, 30, 320, 320,Color.LIGHT_GRAY);
+		borders = new DrawableRectangle(BORDERS_MARGIN, BORDERS_MARGIN, 320, 320,Color.LIGHT_GRAY);
 		fields = new Field[FIELDS_X_Y][FIELDS_X_Y];
 		field_img = new Texture("bomb_0.png");
 		
@@ -52,17 +55,17 @@ public class Board {
 		
 	}
 	private void drawFields(Batch p_batch){
-		int m_x_pos = (int)borders.getX()+10;
-		int m_y_pos = (int)borders.getY()+10;
+		int m_x_pos = (int)borders.getX()+BORDERS_PADDING;
+		int m_y_pos = (int)borders.getY()+BORDERS_PADDING;
 		
 		for(int i = 0;i<fields.length;i++){
 			for(int j = 0;j<fields[i].length;j++){
 				p_batch.draw(fields_img[fields[i][j].getImgIndex()],m_x_pos,m_y_pos);
-				m_x_pos +=30;
+				m_x_pos +=FIELD_LENGTH;
 			}
 			
-			m_y_pos += 30;
-			m_x_pos = (int)borders.getX()+10;
+			m_y_pos += FIELD_LENGTH;
+			m_x_pos = (int)borders.getX()+BORDERS_PADDING;
 		}
 		
 	}
@@ -85,6 +88,28 @@ public class Board {
 			}
 		}
 	};
+    
+    public void handleInput(int p_mouse_x,int p_mouse_y,boolean p_is_clicked){
+        //first lets calculate above which field mouse is
+        int m_index_x = p_mouse_x - BORDERS_PADDING - BORDERS_MARGIN;
+        int m_index_y = p_mouse_y - BORDERS_PADDING - BORDERS_MARGIN;
+        m_index_x /= 30;
+        m_index_y /= 30;
+        System.out.println(m_index_x + "," + m_index_y);
+        
+        // if number is out of range prevent crash
+        if(m_index_x < FIELDS_X_Y && m_index_y < FIELDS_X_Y){
+            return;
+        }
+        
+        if(p_is_clicked == true){
+            fields[m_index_x][m_index_y].setClicked();
+            updateFieldImg(m_index_x,m_index_y);
+        }
+        else{
+            fields[m_index_x][m_index_y].setImgIndex(HOVER_IMG);
+        }
+    }
     
     private void calculateNeighbors(int p_x, int p_y){
         // if it is bomb there is no reason for calculate this
@@ -126,22 +151,25 @@ public class Board {
     public void updateFieldsImg(){
 		for(int i = 0;i<fields.length;i++){
 			for(int j = 0;j<fields[i].length;j++){
-				// first check if it is clicked and visible
-                // then if there is a bomb
-                // if not then lets set index with value of amount 
-                // bombs in neighborhood
-                if(fields[i][j].isClicked() == false){
-                    fields[i][j].setImgIndex(NONE_IMG);
-                }
-                else if(fields[i][j].isContainingBomb() == true){
-                    fields[i][j].setImgIndex(BOMB_IMG);
-                }
-                else{
-                    fields[i][j].setImgIndex(fields[i][j].getBombsInNeighborhood());
-                }
+                updateFieldImg(i,j);
 			}
 		}
     };
+    private void updateFieldImg(int p_x, int p_y){
+        // first check if it is clicked and visible
+        // then if there is a bomb
+        // if not then lets set index with value of amount 
+        // bombs in neighborhood
+        if(fields[p_x][p_y].isClicked() == false){
+            fields[p_x][p_y].setImgIndex(NONE_IMG);
+        }
+        else if(fields[p_x][p_y].isContainingBomb() == true){
+            fields[p_x][p_y].setImgIndex(BOMB_IMG);
+        }
+        else{
+            fields[p_x][p_y].setImgIndex(fields[p_x][p_y].getBombsInNeighborhood());
+        }
+    }
         
 	public void dispose(){
 		field_img.dispose();

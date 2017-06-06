@@ -29,13 +29,17 @@ public class Game extends ApplicationAdapter {
 	}
 
     public void update(){
+        int m_mouse_x = Gdx.input.getX();
+        int m_mouse_y = win_h - Gdx.input.getY();
+        
         text = "Mouse pos: ";
-        text += Gdx.input.getX();
+        text += m_mouse_x;
         text += ",";
-        text += win_h - Gdx.input.getY();
+        text += m_mouse_y;
         
         if(Gdx.input.isButtonPressed(Buttons.LEFT) == true){
             font.setColor(Color.GREEN);
+            board.handleInput(m_mouse_x,m_mouse_y,true);
         }
         else{
             font.setColor(Color.RED);
