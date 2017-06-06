@@ -9,12 +9,14 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Game extends ApplicationAdapter {
-	SpriteBatch batch;
-	Board board;
+	private SpriteBatch batch;
+	private Board board;
     private BitmapFont font;
 	private String text;
     private int win_h;
     private int win_w;
+    final private float TIME_BETWEEN_CLICKS = 0.2f;
+    private float time_since_last_click = 0.0f;
     
 	@Override
 	public void create () {
@@ -28,7 +30,7 @@ public class Game extends ApplicationAdapter {
         text = "There was no mouse click yet!";
 	}
 
-    public void update(){
+    public void update(float p_delta){
         int m_mouse_x = Gdx.input.getX();
         int m_mouse_y = win_h - Gdx.input.getY();
         
@@ -36,19 +38,24 @@ public class Game extends ApplicationAdapter {
         text += m_mouse_x;
         text += ",";
         text += m_mouse_y;
+        time_since_last_click += p_delta;
         
         if(Gdx.input.isButtonPressed(Buttons.LEFT) == true){
-            font.setColor(Color.GREEN);
-            board.handleInput(m_mouse_x,m_mouse_y,true);
+            if(time_since_last_click >= TIME_BETWEEN_CLICKS){
+                font.setColor(Color.GREEN);
+                board.handleInput(m_mouse_x,m_mouse_y,true);
+                time_since_last_click = 0.f;
+            }
         }
         else{
+            board.handleInput(m_mouse_x,m_mouse_y,false);
             font.setColor(Color.RED);
         }
     }
 
 	@Override
 	public void render () {
-        update();
+        update(Gdx.graphics.getDeltaTime());
 		Gdx.gl.glClearColor(0, 1, 1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();

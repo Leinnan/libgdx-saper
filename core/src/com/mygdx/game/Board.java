@@ -61,6 +61,10 @@ public class Board {
 		for(int i = 0;i<fields.length;i++){
 			for(int j = 0;j<fields[i].length;j++){
 				p_batch.draw(fields_img[fields[i][j].getImgIndex()],m_x_pos,m_y_pos);
+                // after we draw it if it was hovered we want to cancel that
+                if(fields[i][j].getImgIndex() == HOVER_IMG){
+                    updateFieldImg(i,j);
+                }
 				m_y_pos +=FIELD_LENGTH;
 			}
 			
@@ -108,7 +112,7 @@ public class Board {
             fields[m_index_x][m_index_y].setClicked();
             updateFieldImg(m_index_x,m_index_y);
         }
-        else{
+        else if(fields[m_index_x][m_index_y].isClicked() == false){
             fields[m_index_x][m_index_y].setImgIndex(HOVER_IMG);
         }
     }
