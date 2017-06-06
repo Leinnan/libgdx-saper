@@ -6,24 +6,20 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class Board {
 	private DrawableRectangle borders;
+	private Field[][] fields;
 	
 	public Board(){
 		borders = new DrawableRectangle(10, 10, 380, 380,Color.LIGHT_GRAY);
-		
+		fields = new Field[10][10];
+	}
+	
+	public void draw(Batch p_batch){
+		p_batch.draw(borders.getTexture(), borders.getX(),borders.getY());
 	}
 	/*
 	 * Setters and getters
 	 */
 	public Texture getBordersTexture(){
 		return borders.getTexture();
-	}
-	public Sprite getBordersSprite() {
-		return borders.getSprite();
-	}
-	public float getBordersX(){
-		return borders.getX();
-	}
-	public float getBordersY(){
-		return borders.getY();
 	}
 }
