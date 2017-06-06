@@ -43,10 +43,13 @@ public class Game extends ApplicationAdapter {
         }   
         time_since_last_click += p_delta;
         
-        if(Gdx.input.isButtonPressed(Buttons.LEFT) == true){
+        if(Gdx.input.isButtonPressed(Buttons.LEFT) == true || Gdx.input.isButtonPressed(Buttons.RIGHT) == true){
             if(time_since_last_click >= TIME_BETWEEN_CLICKS){
                 font.setColor(Color.GREEN);
-                board.handleInput(m_mouse_x,m_mouse_y,true);
+                if(Gdx.input.isButtonPressed(Buttons.LEFT) == true)
+                    board.handleInput(m_mouse_x,m_mouse_y,true,false);
+                else
+                    board.handleInput(m_mouse_x,m_mouse_y,false,true);
                 time_since_last_click = 0.f;
                 if(board.isAnyBombExposed() == true){
                     text = "GAME LOST!";
@@ -55,7 +58,7 @@ public class Game extends ApplicationAdapter {
             }
         }
         else{
-            board.handleInput(m_mouse_x,m_mouse_y,false);
+            board.handleInput(m_mouse_x,m_mouse_y,false,false);
             font.setColor(Color.RED);
         }
     }

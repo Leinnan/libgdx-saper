@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 public class Field {
 	private boolean clicked;
+	private boolean marked;
 	private boolean contain_bomb;
 	private int bombs_in_neighborhood;
 	private int img_index;
@@ -22,9 +23,21 @@ public class Field {
 	public void setClicked() {
 		this.clicked = true;
 	}
-	public void setClicked(boolean clicked) {
-		this.clicked = clicked;
+	public void setClicked(boolean m_clicked) {
+		this.clicked = m_clicked;
 	}
+	public boolean isMarked() {
+		return marked;
+	}
+	public void setMarked() {
+		this.marked = true;
+	}
+	public void setMarked(boolean m_marked) {
+		this.marked = m_marked;
+	}
+    public void switchMarked(){
+        this.marked = !this.marked;
+    }
 
 	public boolean isContainingBomb() {
 		return contain_bomb;

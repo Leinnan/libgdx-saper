@@ -12,6 +12,7 @@ public class Board {
     final int HIDE_IMG = 0;
     final int NONE_IMG = 9;
     final int HOVER_IMG = 11;
+    final int MARKED_IMG = 12;
     final boolean DEBUG_MODE = false;
     final int BORDERS_MARGIN = 30;
     final int BORDERS_PADDING = 10;
@@ -41,7 +42,7 @@ public class Board {
 	}
 
 	private void loadFieldsImg() {
-		fields_img = new Texture[12];
+		fields_img = new Texture[13];
 		for(int i = 0;i<fields_img.length;i++){
 			fields_img[i] = new Texture("bomb_" + i + ".png");
 		}
@@ -91,7 +92,7 @@ public class Board {
 		}
 	};
     
-    public void handleInput(int p_mouse_x,int p_mouse_y,boolean p_is_clicked){
+    public void handleInput(int p_mouse_x,int p_mouse_y,boolean p_left_button,boolean p_right_button){
         //first lets calculate above which field mouse is
         int m_index_x = p_mouse_x - BORDERS_PADDING - BORDERS_MARGIN;
         int m_index_y = p_mouse_y - BORDERS_PADDING - BORDERS_MARGIN;
@@ -106,11 +107,20 @@ public class Board {
             System.out.println(m_index_x + "," + m_index_y);
         }
         
-        if(p_is_clicked == true){
-            fields[m_index_x][m_index_y].setClicked();
-            updateFieldImg(m_index_x,m_index_y);
+        if(p_left_button == true){
+            if(fields[m_index_x][m_index_y].isMarked() == false){
+                fields[m_index_x][m_index_y].setClicked();
+                updateFieldImg(m_index_x,m_index_y);
+            }
         }
-        else if(fields[m_index_x][m_index_y].isClicked() == false){
+        else if(p_right_button == true){
+            if(fields[m_index_x][m_index_y].isClicked() == false){
+                fields[m_index_x][m_index_y].switchMarked();
+                fields[m_index_x][m_index_y].setImgIndex(MARKED_IMG);
+            }
+        }
+        else if(fields[m_index_x][m_index_y].isClicked() == false &&
+                fields[m_index_x][m_index_y].isMarked() == false){
             fields[m_index_x][m_index_y].setImgIndex(HOVER_IMG);
         }
     }
@@ -166,6 +176,9 @@ public class Board {
         // bombs in neighborhood
         if(fields[p_x][p_y].isClicked() == false){
             fields[p_x][p_y].setImgIndex(NONE_IMG);
+        }
+        else if(fields[p_x][p_y].isMarked() == true){
+            fields[p_x][p_y].setImgIndex(MARKED_IMG);
         }
         else if(fields[p_x][p_y].isContainingBomb() == true){
             fields[p_x][p_y].setImgIndex(BOMB_IMG);
