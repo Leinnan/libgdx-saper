@@ -90,7 +90,7 @@ public class Game extends ApplicationAdapter {
         font.draw(batch, text, 20, Gdx.graphics.getHeight()-20);
         }
         else{
-            batch.draw(game_lost_tex,0,Gdx.graphics.getHeight()-300);
+            batch.draw(game_lost_tex,0,Gdx.graphics.getHeight()-200);
         }
 		batch.end();
 	}
