@@ -138,6 +138,27 @@ public class Board {
             fields[m_index_x][m_index_y].setImgIndex(HOVER_IMG);
         }
     }
+    /*
+     * To ensure that board is secure we need to check:
+     * - all marked down fields are bombs
+     * - all bombs are marked
+     */ 
+    public boolean isSecure(){
+        int m_marked_bombs = 0;
+        
+		for(int i = 0;i<fields.length;i++){
+			for(int j = 0;j<fields[i].length;j++){
+				if(fields[i][j].isMarked() == true ||
+                   fields[i][j].isContainingBomb() == true){
+                    m_marked_bombs++;
+               }
+               else if(fields[i][j].isClicked() == false){
+                   return false;
+               }
+            }
+        }
+        return m_marked_bombs == BOMBS_AMOUNT;
+    }
     
     private void calculateNeighbors(int p_x, int p_y){
         // if it is bomb there is no reason for calculate this

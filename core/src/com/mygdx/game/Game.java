@@ -15,6 +15,7 @@ public class Game extends ApplicationAdapter {
 	private Board board;
     private BitmapFont font;
     private Texture game_lost_tex;
+    private Texture game_win_tex;
     private Color font_color;
 	private String text;
     private int win_h;
@@ -22,6 +23,7 @@ public class Game extends ApplicationAdapter {
     final private float TIME_BETWEEN_CLICKS = 0.2f;
     private float time_since_last_click = 0.0f;
     private boolean is_game_lost = false;
+    private boolean is_game_won = false;
     
 	@Override
 	public void create () {
@@ -30,6 +32,7 @@ public class Game extends ApplicationAdapter {
         font = new BitmapFont();
         font_color = new Color(0.8359375f,0.8359375f,0.8359375f,1);
         game_lost_tex = new Texture("game_lost.png");
+        game_win_tex = new Texture("game_win.png");
         
         win_h = Gdx.graphics.getHeight();
         win_w =  Gdx.graphics.getWidth();
@@ -43,14 +46,34 @@ public class Game extends ApplicationAdapter {
         int m_mouse_y = win_h - Gdx.input.getY();
         time_since_last_click += p_delta;
         
-        if(is_game_lost == false){
+        if(is_game_won){
+            if(time_since_last_click >= TIME_BETWEEN_CLICKS){
+                    if(Gdx.input.isButtonPressed(Buttons.LEFT) == true){
+                        board = new Board();
+                        is_game_lost = false;
+                        is_game_won = false;
+                        time_since_last_click = -0.2f;
+                    }
+            }
+        }
+        else if(is_game_lost == false){
             text = "Marked bombs: ";
             text += board.getMarkedFields();
             text += "/10";
             
+            // if 10 places are marked lets check is game ends
+            if(board.getMarkedFields() == 10){
+                if(board.isSecure() == true){
+                    is_game_won = true;
+                    time_since_last_click = -0.5f;
+                }
+            }
             
-            if(Gdx.input.isButtonPressed(Buttons.LEFT) == true || 
-               Gdx.input.isButtonPressed(Buttons.RIGHT) == true){
+            
+            if(Gdx.input.isButtonPressed(Buttons.LEFT) == true &&
+               is_game_won == false || 
+               Gdx.input.isButtonPressed(Buttons.RIGHT) == true &&
+               is_game_won == false){
                 if(time_since_last_click >= TIME_BETWEEN_CLICKS){
                     if(Gdx.input.isButtonPressed(Buttons.LEFT) == true)
                         board.handleInput(m_mouse_x,m_mouse_y,true,false);
@@ -58,8 +81,8 @@ public class Game extends ApplicationAdapter {
                         board.handleInput(m_mouse_x,m_mouse_y,false,true);
                     time_since_last_click = 0.f;
                     if(board.isAnyBombExposed() == true){
-                        text = "GAME LOST!";
                         is_game_lost = true;
+                        is_game_won = false;
                         // make player wait longer for starting new game
                         time_since_last_click = -0.5f;
                     }
@@ -87,11 +110,15 @@ public class Game extends ApplicationAdapter {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
 		board.draw(batch);
-        if(is_game_lost == false){
-        font.draw(batch, text, 20, Gdx.graphics.getHeight()-20);
+        
+        if(is_game_won == true){
+            batch.draw(game_win_tex,0,Gdx.graphics.getHeight()-100);
+        }
+        else if(is_game_lost == false){
+            font.draw(batch, text, 20, Gdx.graphics.getHeight()-20);
         }
         else{
-            batch.draw(game_lost_tex,0,Gdx.graphics.getHeight()-200);
+            batch.draw(game_lost_tex,0,Gdx.graphics.getHeight()-100);
         }
 		batch.end();
 	}
