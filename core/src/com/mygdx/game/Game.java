@@ -61,7 +61,7 @@ public class Game extends ApplicationAdapter {
                         text = "GAME LOST!";
                         is_game_lost = true;
                         // make player wait longer for starting new game
-                        time_since_last_click = -1.f;
+                        time_since_last_click = -0.5f;
                     }
                 }
             }
@@ -74,6 +74,7 @@ public class Game extends ApplicationAdapter {
                 if(Gdx.input.isButtonPressed(Buttons.LEFT) == true){
                     board = new Board();
                     is_game_lost = false;
+                    time_since_last_click = -0.2f;
                 }
             }
         }   
