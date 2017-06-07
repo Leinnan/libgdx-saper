@@ -19,11 +19,13 @@ public class Board {
 	private DrawableRectangle borders;
 	private Field[][] fields;
 	private Texture[] fields_img;
+    
+    private int marked_fields;
 	
 	public Board(){
 		borders = new DrawableRectangle(BORDERS_MARGIN, BORDERS_MARGIN, 320, 320,Color.LIGHT_GRAY);
 		fields = new Field[FIELDS_X_Y][FIELDS_X_Y];
-		
+		marked_fields = 0;
 
 		for(int i = 0;i<fields.length;i++){
 			for(int j = 0;j<fields[i].length;j++){
@@ -110,10 +112,12 @@ public class Board {
         if(p_left_button == true){
             if(fields[m_index_x][m_index_y].isMarked() == false){
                 fields[m_index_x][m_index_y].setClicked();
-                if(fields[m_index_x][m_index_y].getBombsInNeighborhood()==0 ||
+                
+                if(fields[m_index_x][m_index_y].getBombsInNeighborhood() == 0 &&
                    fields[m_index_x][m_index_y].isContainingBomb() == false){
                     revealEmptyNeighbors(m_index_x,m_index_y);
                 }
+                
                 updateFieldImg(m_index_x,m_index_y);
             }
         }
@@ -121,6 +125,12 @@ public class Board {
             if(fields[m_index_x][m_index_y].isClicked() == false){
                 fields[m_index_x][m_index_y].switchMarked();
                 fields[m_index_x][m_index_y].setImgIndex(MARKED_IMG);
+                if(fields[m_index_x][m_index_y].isMarked()){
+                    marked_fields++;
+                }
+                else{
+                    marked_fields--;
+                }
             }
         }
         else if(fields[m_index_x][m_index_y].isClicked() == false &&
@@ -167,6 +177,8 @@ public class Board {
     };
     
     public void revealEmptyNeighbors(int p_x, int p_y){
+        
+        
 		for(int i = p_x-1;i<p_x+2;i++){
 			for(int j = p_y-1;j<p_y+2;j++){
                 if(i < 0 || i >= FIELDS_X_Y || j < 0 || j >= FIELDS_X_Y){
@@ -176,7 +188,7 @@ public class Board {
                     System.out.println("SPRAWDZAM [" + i + "," + j + "]");
                 }
                 
-                if(fields[i][j].isContainingBomb() == false){
+                if(fields[i][j].isContainingBomb() == false && fields[i][j].isClicked() == false){
                     fields[i][j].setClicked();
                     
                     updateFieldImg(i,j);
@@ -238,4 +250,7 @@ public class Board {
 	public Texture getBordersTexture(){
 		return borders.getTexture();
 	}
+    public int getMarkedFields(){
+        return this.marked_fields;
+    }
 }

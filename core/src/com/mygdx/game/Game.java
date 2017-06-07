@@ -36,10 +36,9 @@ public class Game extends ApplicationAdapter {
         int m_mouse_y = win_h - Gdx.input.getY();
         
         if(is_game_lost == false){
-            text = "Mouse pos: ";
-            text += m_mouse_x;
-            text += ",";
-            text += m_mouse_y;
+            text = "Marked bombs: ";
+            text += board.getMarkedFields();
+            text += "/10";
         }   
         time_since_last_click += p_delta;
         
