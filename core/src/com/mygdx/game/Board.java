@@ -23,7 +23,7 @@ public class Board {
     private int marked_fields;
 	
 	public Board(){
-		borders = new DrawableRectangle(BORDERS_MARGIN, BORDERS_MARGIN, 320, 320,Color.LIGHT_GRAY);
+		borders = new DrawableRectangle(BORDERS_MARGIN, BORDERS_MARGIN, 320, 320,new Color(0.23046875f,0.28125f,0.31640625f,1));
 		fields = new Field[FIELDS_X_Y][FIELDS_X_Y];
 		marked_fields = 0;
 
